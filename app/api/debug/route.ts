@@ -15,9 +15,10 @@ export async function GET() {
                 name: true,
                 isPremium: true,
                 createdAt: true,
+                updatedAt: true,
             },
             orderBy: {
-                createdAt: 'desc'
+                updatedAt: 'desc'
             }
         });
 

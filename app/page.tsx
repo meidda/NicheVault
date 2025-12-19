@@ -1,16 +1,17 @@
-import { PrismaClient, Niche } from '@prisma/client';
+import { Niche } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
 import TrendingSection from '@/components/TrendingSection';
 import NicheCard from '@/components/NicheCard';
-
-const prisma = new PrismaClient();
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 import FAQ from '@/components/FAQ';
 import Testimonials from '@/components/Testimonials';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
