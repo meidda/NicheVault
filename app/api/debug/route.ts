@@ -26,7 +26,7 @@ export async function GET() {
         const envCheck = {
             hasStripeSecret: !!process.env.STRIPE_SECRET_KEY,
             hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
-            webhookSecretIsPlaceholder: process.env.STRIPE_WEBHOOK_SECRET === 'whsec_placeholder',
+            webhookSecretValid: process.env.STRIPE_WEBHOOK_SECRET !== 'whsec_placeholder',
             hasPublishableKey: !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
             hasGoogleClientId: !!process.env.GOOGLE_CLIENT_ID,
             hasGoogleClientSecret: !!process.env.GOOGLE_CLIENT_SECRET,
