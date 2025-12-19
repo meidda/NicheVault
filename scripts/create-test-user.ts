@@ -5,7 +5,7 @@ async function main() {
     // Create a test user with premium access
     const hashedPassword = await bcrypt.hash('test123', 10);
 
-    const user = await prisma.user.upsert({
+    await prisma.user.upsert({
         where: { email: 'test@premium.com' },
         update: {
             isPremium: true,
@@ -17,7 +17,8 @@ async function main() {
             password: hashedPassword,
             isPremium: true,
             isAdmin: false,
-        },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any,
     });
 
     console.log('✅ Test user created:');

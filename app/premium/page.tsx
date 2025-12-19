@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Check, Lock } from 'lucide-react';
@@ -11,7 +11,7 @@ function PremiumContent() {
     const [loading, setLoading] = useState(false);
     const isPremium = session?.user?.isPremium === true;
 
-    const handleCheckout = async () => {
+    const handleCheckout = useCallback(async () => {
         if (!session) {
             // User not logged in - redirect to login with return URL
             router.push('/login?callbackUrl=/premium?checkout=true');
@@ -34,14 +34,17 @@ function PremiumContent() {
             console.error(error);
             setLoading(false);
         }
-    };
+    }, [session, router]);
 
     // Auto-redirect to checkout after login
     useEffect(() => {
         if (session && searchParams.get('checkout') === 'true') {
-            handleCheckout();
+            const timer = setTimeout(() => {
+                handleCheckout();
+            }, 0);
+            return () => clearTimeout(timer);
         }
-    }, [session, searchParams]);
+    }, [session, searchParams, handleCheckout]);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-black dark:to-gray-900 pt-24 pb-12 px-4">

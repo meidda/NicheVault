@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function DebugPage() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -53,7 +54,7 @@ export default function DebugPage() {
                                 <li>Open a new terminal</li>
                                 <li>Run: <code className="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">stripe listen --forward-to localhost:3000/api/stripe/webhook</code></li>
                                 <li>Copy the webhook secret (starts with whsec_)</li>
-                                <li>Update .env file: <code className="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">STRIPE_WEBHOOK_SECRET="whsec_..."</code></li>
+                                <li>Update .env file: <code className="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">STRIPE_WEBHOOK_SECRET=&quot;whsec_...&quot;</code></li>
                                 <li>Restart the dev server</li>
                             </ol>
                         </div>
@@ -104,7 +105,8 @@ export default function DebugPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data?.users?.map((user: any) => (
+                                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                {((data as any)?.users || []).map((user: any) => (
                                     <tr key={user.id} className="border-b border-gray-100 dark:border-gray-800">
                                         <td className="p-2">{user.email}</td>
                                         <td className="p-2">{user.name || '-'}</td>
