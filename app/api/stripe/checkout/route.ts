@@ -30,8 +30,8 @@ export async function POST(_req: Request) {
             cancel_url: `${process.env.NEXTAUTH_URL}/cancel`,
             customer_email: userEmail || undefined,
             metadata: {
-                userId: userId,
-                email: userEmail,
+                ...(userId && { userId }),
+                ...(userEmail && { email: userEmail }),
             },
         });
 

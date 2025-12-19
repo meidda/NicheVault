@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         console.log(`🔔 Webhook: Processing ${event.type} for User:${userId} Email:${email}`);
 
         try {
-            if (userId) {
+            if (userId && userId !== 'null' && userId !== 'undefined') {
                 // Primary: update by ID
                 await prisma.user.update({
                     where: { id: userId },
@@ -38,11 +38,20 @@ export async function POST(req: Request) {
                 console.log(`✅ Webhook: Updated user by ID: ${userId}`);
             } else if (email) {
                 // Secondary fallback: update by Email
-                await prisma.user.update({
-                    where: { email: email },
-                    data: { isPremium: true },
+                const users = await prisma.user.findMany({
+                    where: { email: { not: null } }
                 });
-                console.log(`✅ Webhook: Updated user by Email fallback: ${email}`);
+                const user = users.find(u => u.email?.toLowerCase() === email.toLowerCase());
+
+                if (user) {
+                    await prisma.user.update({
+                        where: { id: user.id },
+                        data: { isPremium: true },
+                    });
+                    console.log(`✅ Webhook: Updated user by Email fallback: ${email}`);
+                } else {
+                    console.error(`❌ Webhook: No user found with email: ${email}`);
+                }
             } else {
                 console.error('❌ Webhook: Missing both userId and email in session data');
             }
@@ -50,13 +59,20 @@ export async function POST(req: Request) {
             console.error('❌ Webhook: Database update failed', dbError);
 
             // Final fallback if ID update failed but we have an email
-            if (userId && email) {
+            if (email) {
                 try {
-                    await prisma.user.update({
-                        where: { email: email },
-                        data: { isPremium: true },
+                    const users = await prisma.user.findMany({
+                        where: { email: { not: null } }
                     });
-                    console.log(`✅ Webhook: Final fallback update by Email worked for: ${email}`);
+                    const user = users.find(u => u.email?.toLowerCase() === email.toLowerCase());
+
+                    if (user) {
+                        await prisma.user.update({
+                            where: { id: user.id },
+                            data: { isPremium: true },
+                        });
+                        console.log(`✅ Webhook: Final fallback update by Email worked for: ${email}`);
+                    }
                 } catch (retryError) {
                     console.error('❌ Webhook: All update attempts failed');
                 }
