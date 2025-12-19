@@ -43,8 +43,8 @@ export async function GET() {
             users: users,
             environment: envCheck,
             diagnosis: {
-                webhookConfigured: !envCheck.webhookSecretIsPlaceholder,
-                message: envCheck.webhookSecretIsPlaceholder
+                webhookConfigured: envCheck.webhookSecretValid,
+                message: !envCheck.webhookSecretValid
                     ? '⚠️ Webhook secret is still placeholder. Run: stripe listen --forward-to localhost:3000/api/stripe/webhook'
                     : '✅ Webhook secret is configured'
             }
