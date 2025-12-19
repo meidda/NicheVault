@@ -34,6 +34,7 @@ export async function GET() {
 
         return NextResponse.json({
             currentSession: session ? {
+                id: session.user?.id,
                 email: session.user?.email,
                 name: session.user?.name,
                 isPremium: session.user?.isPremium,

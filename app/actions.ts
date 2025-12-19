@@ -83,3 +83,23 @@ export async function deleteNiche(id: string) {
     await prisma.niche.delete({ where: { id } });
     revalidatePath('/admin');
 }
+
+export async function forceUpgrade(email: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.isAdmin && session?.user?.email !== email) {
+        throw new Error('Unauthorized');
+    }
+
+    await prisma.user.update({
+        where: { email },
+        data: { isPremium: true }
+    });
+
+    revalidatePath('/');
+    revalidatePath('/debug');
+    revalidatePath('/premium');
+}
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
