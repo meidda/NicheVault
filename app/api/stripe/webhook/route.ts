@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
-import { headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import Stripe from 'stripe';
 
 export async function POST(req: Request) {
     const body = await req.text();
-    const signature = (await headers()).get('Stripe-Signature') as string;
+    const signature = req.headers.get('stripe-signature');
+
+    if (!signature) {
+        return new NextResponse('Missing Stripe signature', { status: 400 });
+    }
 
     let event: Stripe.Event;
 
@@ -16,67 +19,40 @@ export async function POST(req: Request) {
             signature,
             process.env.STRIPE_WEBHOOK_SECRET!
         );
-    } catch (error: unknown) {
-        const message = error instanceof Error ? error.message : 'Unknown error';
-        return NextResponse.json({ message: 'Webhook Error', error: message }, { status: 400 });
+    } catch (err) {
+        console.error('❌ Stripe webhook signature verification failed', err);
+        return new NextResponse('Invalid signature', { status: 400 });
     }
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object as Stripe.Checkout.Session;
+
+        const email = session.customer_details?.email || session.customer_email;
         const userId = session.metadata?.userId;
-        const email = session.customer_details?.email || session.customer_email || session.metadata?.email;
 
-        console.log(`🔔 Webhook: Processing ${event.type} for User:${userId} Email:${email}`);
+        console.log('✅ Checkout completed');
+        console.log('Email:', email);
+        console.log('User ID:', userId);
 
-        try {
-            if (userId && userId !== 'null' && userId !== 'undefined') {
-                // Primary: update by ID
-                await prisma.user.update({
-                    where: { id: userId },
-                    data: { isPremium: true },
-                });
-                console.log(`✅ Webhook: Updated user by ID: ${userId}`);
-            } else if (email) {
-                // Secondary fallback: update by Email
-                const users = await prisma.user.findMany({
-                    where: { email: { not: null } }
-                });
-                const user = users.find(u => u.email?.toLowerCase() === email.toLowerCase());
-
-                if (user) {
-                    await prisma.user.update({
-                        where: { id: user.id },
-                        data: { isPremium: true },
-                    });
-                    console.log(`✅ Webhook: Updated user by Email fallback: ${email}`);
-                } else {
-                    console.error(`❌ Webhook: No user found with email: ${email}`);
+        if (userId) {
+            await prisma.user.update({
+                where: { id: userId },
+                data: { isPremium: true }
+            });
+            console.log(`✅ Success: Updated user ${userId} to premium`);
+        } else if (email) {
+            await prisma.user.upsert({
+                where: { email },
+                update: { isPremium: true },
+                create: {
+                    email,
+                    name: 'Premium User',
+                    isPremium: true
                 }
-            } else {
-                console.error('❌ Webhook: Missing both userId and email in session data');
-            }
-        } catch (dbError) {
-            console.error('❌ Webhook: Database update failed', dbError);
-
-            // Final fallback if ID update failed but we have an email
-            if (email) {
-                try {
-                    const users = await prisma.user.findMany({
-                        where: { email: { not: null } }
-                    });
-                    const user = users.find(u => u.email?.toLowerCase() === email.toLowerCase());
-
-                    if (user) {
-                        await prisma.user.update({
-                            where: { id: user.id },
-                            data: { isPremium: true },
-                        });
-                        console.log(`✅ Webhook: Final fallback update by Email worked for: ${email}`);
-                    }
-                } catch (retryError) {
-                    console.error('❌ Webhook: All update attempts failed');
-                }
-            }
+            });
+            console.log(`✅ Success: Upserted user with email ${email} to premium`);
+        } else {
+            console.error('❌ Error: No userId or email found in session');
         }
     }
 
