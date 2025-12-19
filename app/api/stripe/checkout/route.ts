@@ -31,6 +31,7 @@ export async function POST(_req: Request) {
             customer_email: userEmail || undefined,
             metadata: {
                 userId: userId,
+                email: userEmail,
             },
         });
 

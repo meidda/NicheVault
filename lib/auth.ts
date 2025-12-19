@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async session({ session, token }) {
             if (session?.user) {
-                session.user.id = token.sub as string;
+                session.user.id = token.id as string;
                 session.user.isAdmin = token.isAdmin as boolean;
                 session.user.isPremium = token.isPremium as boolean;
             }
@@ -74,39 +74,35 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user, account }) {
             // On initial sign in (user object exists)
             if (user) {
-                console.log('🔐 Initial JWT - User:', user.email);
+                token.id = user.id;
                 token.isAdmin = user.isAdmin;
                 token.isPremium = user.isPremium;
             }
 
-            // Always fetch latest premium status from database
+            // Always fetch latest status from database
             if (token.email) {
-                console.log('🔄 Syncing premium status for:', token.email);
                 const dbUser = await prisma.user.findUnique({
                     where: { email: token.email },
-                    select: { isPremium: true, isAdmin: true }
+                    select: { id: true, isPremium: true, isAdmin: true }
                 });
 
                 if (dbUser) {
-                    console.log('✅ Premium status synced:', dbUser.isPremium);
+                    token.id = dbUser.id;
                     token.isPremium = dbUser.isPremium;
                     token.isAdmin = dbUser.isAdmin;
-                } else {
-                    console.log('⚠️ User not found in database, creating...');
+                } else if (account?.provider === 'google' && token.name && token.email) {
                     // For Google OAuth users, create account if doesn't exist
-                    if (account?.provider === 'google' && token.name && token.email) {
-                        const newUser = await prisma.user.create({
-                            data: {
-                                email: token.email,
-                                name: token.name,
-                                isPremium: false,
-                                isAdmin: false,
-                            }
-                        });
-                        token.isPremium = newUser.isPremium;
-                        token.isAdmin = newUser.isAdmin;
-                        console.log('✅ Google user created:', token.email);
-                    }
+                    const newUser = await prisma.user.create({
+                        data: {
+                            email: token.email,
+                            name: token.name,
+                            isPremium: false,
+                            isAdmin: false,
+                        }
+                    });
+                    token.id = newUser.id;
+                    token.isPremium = newUser.isPremium;
+                    token.isAdmin = newUser.isAdmin;
                 }
             }
 
