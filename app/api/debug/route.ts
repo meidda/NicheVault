@@ -26,7 +26,8 @@ export async function GET() {
         const envCheck = {
             hasStripeSecret: !!process.env.STRIPE_SECRET_KEY,
             hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
-            webhookSecretValid: process.env.STRIPE_WEBHOOK_SECRET !== 'whsec_placeholder',
+            webhookSecretValid: !!process.env.STRIPE_WEBHOOK_SECRET && process.env.STRIPE_WEBHOOK_SECRET !== 'whsec_placeholder',
+            webhookSecretIsPlaceholder: process.env.STRIPE_WEBHOOK_SECRET === 'whsec_placeholder',
             hasPublishableKey: !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
             hasGoogleClientId: !!process.env.GOOGLE_CLIENT_ID,
             hasGoogleClientSecret: !!process.env.GOOGLE_CLIENT_SECRET,
@@ -44,9 +45,12 @@ export async function GET() {
             environment: envCheck,
             diagnosis: {
                 webhookConfigured: envCheck.webhookSecretValid,
-                message: !envCheck.webhookSecretValid
-                    ? '⚠️ Webhook secret is still placeholder. Run: stripe listen --forward-to localhost:3000/api/stripe/webhook'
-                    : '✅ Webhook secret is configured'
+                isPlaceholder: envCheck.webhookSecretIsPlaceholder,
+                message: envCheck.webhookSecretIsPlaceholder
+                    ? '🚨 CRITICAL: Your Webhook Secret is still set to the PLACEHOLDER value. You must replace it with the real key from Stripe.'
+                    : !envCheck.webhookSecretValid
+                        ? '⚠️ Webhook secret is missing. Check your Vercel Environment Variables.'
+                        : '✅ Webhook secret is configured'
             }
         });
     } catch (error) {

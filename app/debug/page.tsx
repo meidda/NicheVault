@@ -91,8 +91,8 @@ export default function DebugPage() {
                 {/* Webhook Status */}
                 <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
                     <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Webhook Configuration</h2>
-                    <div className={`p-4 rounded-lg flex items-center gap-3 ${data?.diagnosis?.webhookConfigured ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
-                        <span className="text-2xl">{data?.diagnosis?.webhookConfigured ? '✅' : '❌'}</span>
+                    <div className={`p-4 rounded-lg flex items-center gap-3 ${data?.diagnosis?.webhookConfigured && !data?.diagnosis?.isPlaceholder ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
+                        <span className="text-2xl">{data?.diagnosis?.webhookConfigured && !data?.diagnosis?.isPlaceholder ? '✅' : '❌'}</span>
                         <p className="font-bold">{data?.diagnosis?.message}</p>
                     </div>
                 </div>
