@@ -27,32 +27,67 @@ export async function POST(req: Request) {
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object as Stripe.Checkout.Session;
 
-        const email = session.customer_details?.email || session.customer_email;
+        const rawEmail = session.customer_details?.email || session.customer_email || session.metadata?.email;
+        const normalizedEmail = rawEmail?.toLowerCase();
         const userId = session.metadata?.userId;
 
-        console.log('✅ Checkout completed');
-        console.log('Email:', email);
-        console.log('User ID:', userId);
+        console.log('🔔 STRIPE WEBHOOK: Received checkout.session.completed');
+        console.log('📝 Raw Data:', {
+            userId,
+            rawEmail,
+            normalizedEmail,
+            sessionId: session.id
+        });
 
-        if (userId) {
-            await prisma.user.update({
-                where: { id: userId },
-                data: { isPremium: true }
-            });
-            console.log(`✅ Success: Updated user ${userId} to premium`);
-        } else if (email) {
-            await prisma.user.upsert({
-                where: { email },
-                update: { isPremium: true },
-                create: {
-                    email,
-                    name: 'Premium User',
-                    isPremium: true
+        try {
+            if (userId && userId !== 'null' && userId !== '') {
+                console.log(`🔍 Searching for user by ID: ${userId}`);
+                const userById = await prisma.user.findUnique({ where: { id: userId } });
+
+                if (userById) {
+                    await prisma.user.update({
+                        where: { id: userId },
+                        data: { isPremium: true }
+                    });
+                    console.log(`✅ SUCCESS: Updated user by ID: ${userId}`);
+                    return NextResponse.json({ received: true, updated: 'id' });
                 }
-            });
-            console.log(`✅ Success: Upserted user with email ${email} to premium`);
-        } else {
-            console.error('❌ Error: No userId or email found in session');
+                console.log(`⚠️ User not found by ID: ${userId}, falling back to email...`);
+            }
+
+            if (normalizedEmail) {
+                console.log(`🔍 Searching for user by Email: ${normalizedEmail}`);
+                const userByEmail = await prisma.user.findUnique({
+                    where: { email: normalizedEmail }
+                });
+
+                if (userByEmail) {
+                    await prisma.user.update({
+                        where: { id: userByEmail.id },
+                        data: { isPremium: true }
+                    });
+                    console.log(`✅ SUCCESS: Updated user by Email: ${normalizedEmail}`);
+                    return NextResponse.json({ received: true, updated: 'email' });
+                }
+
+                // Final creation step if user doesn't exist yet
+                console.log(`🆕 User not found. Creating new premium user for: ${normalizedEmail}`);
+                await prisma.user.upsert({
+                    where: { email: normalizedEmail },
+                    update: { isPremium: true },
+                    create: {
+                        email: normalizedEmail,
+                        name: 'Premium User',
+                        isPremium: true
+                    }
+                });
+                console.log(`✅ SUCCESS: Upserted user with email ${normalizedEmail} to premium`);
+            } else {
+                console.error('❌ ERROR: No userId or email found in Stripe session metadata');
+            }
+        } catch (dbError) {
+            console.error('❌ DATABASE ERROR in webhook:', dbError);
+            return new NextResponse('Database error', { status: 500 });
         }
     }
 

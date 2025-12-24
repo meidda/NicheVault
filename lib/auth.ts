@@ -81,8 +81,9 @@ export const authOptions: NextAuthOptions = {
 
             // Always fetch latest status from database
             if (token.email) {
+                const normalizedEmail = token.email.toLowerCase();
                 const dbUser = await prisma.user.findUnique({
-                    where: { email: token.email },
+                    where: { email: normalizedEmail },
                     select: { id: true, isPremium: true, isAdmin: true }
                 });
 
@@ -94,7 +95,7 @@ export const authOptions: NextAuthOptions = {
                     // For Google OAuth users, create account if doesn't exist
                     const newUser = await prisma.user.create({
                         data: {
-                            email: token.email,
+                            email: normalizedEmail,
                             name: token.name,
                             isPremium: false,
                             isAdmin: false,

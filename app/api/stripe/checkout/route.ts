@@ -9,6 +9,7 @@ export async function POST(_req: Request) {
 
         const userId = session?.user?.id || null;
         const userEmail = session?.user?.email || null;
+        const normalizedEmail = userEmail?.toLowerCase();
 
         const checkoutSession = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -28,10 +29,10 @@ export async function POST(_req: Request) {
             mode: 'payment',
             success_url: `${process.env.NEXTAUTH_URL}/success`,
             cancel_url: `${process.env.NEXTAUTH_URL}/cancel`,
-            customer_email: userEmail || undefined,
+            customer_email: normalizedEmail || undefined,
             metadata: {
-                ...(userId && { userId }),
-                ...(userEmail && { email: userEmail }),
+                userId: userId || '',
+                email: normalizedEmail || '',
             },
         });
 

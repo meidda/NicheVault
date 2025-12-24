@@ -163,6 +163,7 @@ export default function DebugPage() {
                                         <td className="p-3">
                                             <div className="font-medium text-gray-900 dark:text-white">{user.name || 'Anonymous'}</div>
                                             <div className="text-gray-500 text-xs">{user.email}</div>
+                                            <div className="text-[10px] text-blue-500 italic">Emails normalized to lowercase for reliable matching</div>
                                             <div className="text-[10px] font-mono text-gray-400 truncate max-w-[100px]">{user.id}</div>
                                         </td>
                                         <td className="p-3">
