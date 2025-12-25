@@ -63,50 +63,51 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
+        async signIn({ user, account }) {
+            if (account?.provider === "google") {
+                if (!user.email) return false;
+
+                const normalizedEmail = user.email.toLowerCase();
+                const dbUser = await prisma.user.findUnique({
+                    where: { email: normalizedEmail }
+                });
+
+                if (!dbUser) {
+                    await prisma.user.create({
+                        data: {
+                            email: normalizedEmail,
+                            name: user.name,
+                            isPremium: false,
+                            isAdmin: false,
+                        }
+                    });
+                }
+            }
+            return true;
+        },
         async session({ session, token }) {
-            if (session?.user) {
-                session.user.id = token.id as string;
-                session.user.isAdmin = token.isAdmin as boolean;
-                session.user.isPremium = token.isPremium as boolean;
+            if (session?.user && token.email) {
+                // Fetch fresh status from database on every session check
+                const dbUser = await prisma.user.findUnique({
+                    where: { email: (token.email as string).toLowerCase() },
+                    select: { id: true, isPremium: true, isAdmin: true }
+                });
+
+                if (dbUser) {
+                    session.user.id = dbUser.id;
+                    session.user.isAdmin = dbUser.isAdmin;
+                    session.user.isPremium = dbUser.isPremium;
+                }
             }
             return session;
         },
-        async jwt({ token, user, account }) {
-            // On initial sign in (user object exists)
+        async jwt({ token, user }) {
+            // Initial sign in
             if (user) {
                 token.id = user.id;
                 token.isAdmin = user.isAdmin;
                 token.isPremium = user.isPremium;
             }
-
-            // Always fetch latest status from database
-            if (token.email) {
-                const normalizedEmail = token.email.toLowerCase();
-                const dbUser = await prisma.user.findUnique({
-                    where: { email: normalizedEmail },
-                    select: { id: true, isPremium: true, isAdmin: true }
-                });
-
-                if (dbUser) {
-                    token.id = dbUser.id;
-                    token.isPremium = dbUser.isPremium;
-                    token.isAdmin = dbUser.isAdmin;
-                } else if (account?.provider === 'google' && token.name && token.email) {
-                    // For Google OAuth users, create account if doesn't exist
-                    const newUser = await prisma.user.create({
-                        data: {
-                            email: normalizedEmail,
-                            name: token.name,
-                            isPremium: false,
-                            isAdmin: false,
-                        }
-                    });
-                    token.id = newUser.id;
-                    token.isPremium = newUser.isPremium;
-                    token.isAdmin = newUser.isAdmin;
-                }
-            }
-
             return token;
         },
     },
