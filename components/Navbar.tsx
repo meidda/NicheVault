@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { Lock, User } from 'lucide-react';
+import { Lock, User, CheckCircle } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import LogoutButton from './LogoutButton';
 
@@ -38,13 +38,20 @@ export default function Navbar() {
                             </>
                         )}
 
-                        <Link
-                            href="/premium"
-                            className="flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg"
-                        >
-                            <Lock className="w-4 h-4" />
-                            <span>Unlock Premium</span>
-                        </Link>
+                        {session?.user?.isPremium ? (
+                            <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-full text-sm font-bold border border-green-200 dark:border-green-800">
+                                <CheckCircle className="w-4 h-4" />
+                                <span>Premium</span>
+                            </div>
+                        ) : (
+                            <Link
+                                href="/premium"
+                                className="flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg"
+                            >
+                                <Lock className="w-4 h-4" />
+                                <span>Unlock Premium</span>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

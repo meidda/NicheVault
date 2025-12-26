@@ -105,6 +105,7 @@ export const authOptions: NextAuthOptions = {
             // Initial sign in
             if (user) {
                 token.id = user.id;
+                token.email = user.email;
                 token.isAdmin = user.isAdmin;
                 token.isPremium = user.isPremium;
             }
