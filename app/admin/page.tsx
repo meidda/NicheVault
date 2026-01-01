@@ -4,6 +4,8 @@ import { Edit, Trash, Plus } from 'lucide-react';
 import { deleteNiche } from '@/app/actions';
 import ResetContentButton from '@/components/admin/ResetContentButton';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
     const niches = await prisma.niche.findMany({
         orderBy: { createdAt: 'desc' }
