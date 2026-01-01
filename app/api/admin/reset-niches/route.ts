@@ -1,10 +1,7 @@
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { seedNiches } from '@/../prisma/seed'; // We'll see if this import works directly. If not, we copy the logic.
-// Actually, in Vercel, prisma/seed.ts might not be included in the bundle as a module.
-// It is safer to DUPLICATE the minimal seed logic here OR make sure seed.ts is in a shared lib.
-// Given strict file requirements, copying the critical logic (or moving seed to lib/seed.ts) is safer.
+// Logic is duplicated below to avoid import issues with seed.ts outside of app directory
 // But first, let's try to just use the logic directly in the file to avoid import issues.
 
 /* 
