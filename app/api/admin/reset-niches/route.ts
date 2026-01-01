@@ -12,7 +12,7 @@ import { seedNiches } from '@/../prisma/seed'; // We'll see if this import works
  * I will implement a robust seed function here that uses the SAME data structure.
  */
 
-import { expertNiches } from '@/../prisma/data/niche_data'; // this is usually fine if it's referenced
+import { expertNiches } from '@/prisma/data/niche_data'; // Corrected import path
 
 export async function POST(req: Request) {
     try {
