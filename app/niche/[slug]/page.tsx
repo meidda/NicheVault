@@ -52,7 +52,7 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
                     <div className="relative">
                         <p className={`text-lg leading-relaxed ${isLocked ? 'blur-md select-none' : ''}`}>
                             {isLocked
-                                ? "This is a comprehensive breakdown of the niche, dealing with high-retention editing techniques, target audience analysis, and competitor gaps. Unlock premium to view the full detailed description tailored for 2025 growth."
+                                ? "This is a comprehensive breakdown of the niche, dealing with high-retention editing techniques, target audience analysis, and competitor gaps. Unlock premium to view the full detailed description tailored for 2026 growth."
                                 : niche.description}
                         </p>
                         {isLocked && (
@@ -223,7 +223,7 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
                                 <li>✓ Required equipment & tools</li>
                                 <li>✓ 10+ example video ideas</li>
                                 <li>✓ Channel growth tactics</li>
-                                <li>✓ Why this niche works in 2025</li>
+                                <li>✓ Why this niche works in 2026</li>
                             </ul>
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center">

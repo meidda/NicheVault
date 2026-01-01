@@ -158,7 +158,7 @@ export const expertNiches: ExpertNiche[] = [
         videoIdeas: [
             { title: 'Inside the $2 Billion Antilia Home', type: 'Tour' },
             { title: 'The Watch Collection of Sultan of Brunei', type: 'Showcase' },
-            { title: 'Most Expensive Private Jets 2025', type: 'Listicle' },
+            { title: 'Most Expensive Private Jets 2026', type: 'Listicle' },
             { title: 'A Day in the Life of Elon Musk', type: 'Biography' },
             { title: 'Why Rolex is a Non-Profit Company', type: 'Analysis' }
         ],
@@ -185,7 +185,7 @@ export const expertNiches: ExpertNiche[] = [
         videoIdeas: [
             { title: 'Inside the $2 Billion Antilia Home', type: 'Tour' },
             { title: 'The Watch Collection of Sultan of Brunei', type: 'Showcase' },
-            { title: 'Most Expensive Private Jets 2025', type: 'Listicle' },
+            { title: 'Most Expensive Private Jets 2026', type: 'Listicle' },
             { title: 'A Day in the Life of Elon Musk', type: 'Biography' },
             { title: 'Why Rolex is a Non-Profit Company', type: 'Analysis' }
         ],
@@ -234,7 +234,7 @@ export const expertNiches: ExpertNiche[] = [
             { title: "5 Smart Home Gadgets You Didn't Know Existed", type: "Listicle" },
             { title: "I Automated My Entire House with $500", type: "Case Study" },
             { title: "Amazon Echo vs Google Nest: The Truth", type: "Review" },
-            { title: "The Ultimate Desk Setup for Productivity 2025", type: "Setup" },
+            { title: "The Ultimate Desk Setup for Productivity 2026", type: "Setup" },
             { title: "Why Your Smart Home is Unsecure", type: "Warning" }
         ],
         growthTips: "Focus on 'Problem -> Solution' hooks. 'Tired of waking up groggy? Here's my automated morning routine.' Visuals must be crisp; getting review units from brands becomes easier after 1k subs.",
@@ -244,7 +244,7 @@ export const expertNiches: ExpertNiche[] = [
         monetizationStrategy: "Amazon Associates (Primary), Tech sponsorships (VPNs, Smart devices), Brand deals.",
         difficulty: "Medium",
         equipmentNeeded: "Stock footage of tech (Storyblocks), or basic camera if doing hands-on (without face). Good microphone is essential for tech narration.",
-        detailedExplanation: "This niche is an affiliate marketing goldmine. You create videos that answer specific questions ('Best Smart Lock 2025') or solve problems. Because the viewers have 'high purchase intent', a small channel can earn a full-time income just from Amazon commissions.",
+        detailedExplanation: "This niche is an affiliate marketing goldmine. You create videos that answer specific questions ('Best Smart Lock 2026') or solve problems. Because the viewers have 'high purchase intent', a small channel can earn a full-time income just from Amazon commissions.",
         tags: ["SmartHome", "TechReview", "HomeAutomation", "Gadgets", "IoT", "tech tips", "setup guide", "future home"]
     },
 

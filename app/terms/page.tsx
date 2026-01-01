@@ -8,7 +8,7 @@ export default function TermsOfService() {
                 <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
 
                 <div className="prose dark:prose-invert max-w-none space-y-6">
-                    <p className="text-lg">Last updated: December 15, 2025</p>
+                    <p className="text-lg">Last updated: January 1, 2026</p>
 
                     <section>
                         <h2 className="text-2xl font-semibold mb-4">1. Agreement to Terms</h2>

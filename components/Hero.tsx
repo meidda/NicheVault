@@ -16,7 +16,7 @@ export default function Hero() {
                     className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-semibold uppercase tracking-wide"
                 >
                     <Sparkles className="w-3 h-3" />
-                    <span>Updated for 2025</span>
+                    <span>UPDATED FOR 2026</span>
                 </motion.div>
 
                 <motion.h1

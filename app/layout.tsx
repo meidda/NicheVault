@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Niche Vault | Top Faceless YouTube Niches",
   description: "Discover profitable, low-competition faceless YouTube niches. Get data-driven strategy guides, revenue estimates, and viral video ideas.",
-  keywords: ["faceless youtube channel", "youtube niche ideas", "best youtube niches 2025", "faceless channel ideas", "youtube automation niches", "high cpm youtube niches", "niche vault"],
+  keywords: ["faceless youtube channel", "youtube niche ideas", "best youtube niches 2026", "faceless channel ideas", "youtube automation niches", "high cpm youtube niches", "niche vault"],
   authors: [{ name: "Niche Vault Team" }],
   openGraph: {
     title: "Niche Vault | Top Faceless YouTube Niches",

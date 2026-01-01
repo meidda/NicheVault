@@ -18,7 +18,7 @@ const faqs = [
     },
     {
         question: "How accurate are the revenue estimates?",
-        answer: "Our revenue estimates are based on industry standards for RPM (Revenue Per Mille) in 2024-2025. We analyze data from real channels in these niches. However, actual earnings depend on your specific video performance, retention, and audience geography."
+        answer: "Our revenue estimates are based on industry standards for RPM (Revenue Per Mille) in 2026-2027. We analyze data from real channels in these niches. However, actual earnings depend on your specific video performance, retention, and audience geography."
     },
     {
         question: "Do I need expensive equipment to start?",

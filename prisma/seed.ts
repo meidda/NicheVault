@@ -74,7 +74,7 @@ async function main() {
                 `${name} Explained in 10 Minutes`,
                 `The Truth About ${name}`,
                 `Top 5 Mistakes in ${name}`,
-                `How to Start ${name} in 2025`,
+                `How to Start ${name} in 2026`,
                 `The Future of ${name}`
             ],
             growthTips: `Focus on CTR (Click Through Rate). Your thumbnail must be better than the top result for your keyword. Post consistently.`

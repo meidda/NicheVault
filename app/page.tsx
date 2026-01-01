@@ -62,7 +62,7 @@ export default async function Home() {
           <a href="/privacy" className="hover:text-gray-900 dark:hover:text-white transition-colors">Privacy Policy</a>
           <a href="/terms" className="hover:text-gray-900 dark:hover:text-white transition-colors">Terms of Service</a>
         </div>
-        <p>© 2025 Niche Vault. All rights reserved.</p>
+        <p>© 2026 Niche Vault. All rights reserved.</p>
 
         <div className="mt-6 flex flex-col items-center gap-2">
           <p className="text-xs text-gray-400">Payments Secured by</p>
