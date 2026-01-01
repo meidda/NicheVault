@@ -37,7 +37,7 @@ export const expertNiches: ExpertNiche[] = [
         detailedExplanation: `The **AI Tool Tutorials** niche is currently the "Gold Rush" of YouTube. Every day, new AI tools are released, and millions of people search for how to use them. You don't need a camera—just a screen recorder and a decent microphone. 
         
         The key differentiation here is **speed** and **clarity**. If you can release a 5-minute tutorial on a new tool within 48 hours of its launch, you will capture the initial search wave.`,
-        whyItWorks: `• **High Intent:** Viewers are looking to solve a specific problem, not just be entertained.\n• **Affiliate Potential:** Almost every AI tool has a recurring commission affiliate program.\n• **Low Production Cost:** No expensive camera or B-roll needed, just your screen.`,
+        whyItWorks: `Viewers in this niche have extremely high intent because they are trying to solve specific problems, not just seeking entertainment. This drives higher conversion rates for affiliates. Additionally, the recurring commission model of many AI SaaS tools ensures long-term passive income from each video. Since you are just recording your screen, production costs are nearly zero.`,
         contentStyle: `clean, distinct screen recording (1080p+). Zoom in on buttons/actions. Fast-paced. No "Hey guys, welcome back" fluff—start the tutorial immediately.`,
         monetizationStrategy: `**Affiliate Marketing** (Jasper, Midjourney, hosting, VPNs). **Sponsorships** from new AI SaaS companies. **AdSense** (High CPM due to tech keywords).`,
         difficulty: 'Easy',
@@ -65,7 +65,7 @@ export const expertNiches: ExpertNiche[] = [
         cpmEstimate: '$8 - $18',
         description: 'Deep-dive storytelling about solved and unsolved cases. High retention, binge-worthy content.',
         detailedExplanation: 'True Crime is the "Netflix" of YouTube. Viewers come for 30-60 minute deep dives. The "Faceless" aspect works perfectly because the visual focus is on evidence, maps, and archival footage, not the narrator.',
-        whyItWorks: '• **Storytelling:** Humans are wired for stories.\n• **Binge Factor:** Once someone finds your channel, they watch 10 videos in a row.\n• **Community:** massive online sleuthing community engages in comments.',
+        whyItWorks: `Humans are evolutionarily wired for storytelling, making True Crime one of the most binge-worthy niches on the platform. It builds a highly engaged community that comments and discusses theories, which signals the YouTube algorithm to push your content further. Once a viewer finds your channel, they will often watch your entire backlog in one sitting.`,
         contentStyle: 'Dark, moody atmosphere. Slow pacing. Ken Burns effect on photos. sombre music. Voiceover must be serious and respectful.',
         monetizationStrategy: 'AdSense (Volume is huge). Sponsorships (VPNs, Games like Hunt a Killer). Merchandise (Hoodies).',
         difficulty: 'Hard',

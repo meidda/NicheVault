@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { Edit, Trash, Plus } from 'lucide-react';
 import { deleteNiche } from '@/app/actions';
+import ResetContentButton from '@/components/admin/ResetContentButton';
 
 export default async function AdminDashboard() {
     const niches = await prisma.niche.findMany({
@@ -12,9 +13,13 @@ export default async function AdminDashboard() {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Niches ({niches.length})</h1>
-                <Link href="/admin/niche/new" className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium flex items-center gap-2 hover:bg-blue-700">
-                    <Plus className="w-4 h-4" /> Add Niche
-                </Link>
+                <div className="flex gap-4">
+                    <ResetContentButton />
+                    <Link href="/admin/niche/new" className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium flex items-center gap-2 hover:bg-blue-700">
+                        <Plus className="w-4 h-4" /> Add Niche
+                    </Link>
+                </div>
+
             </div>
 
             <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden shadow-sm">
