@@ -23,14 +23,7 @@ export const metadata: Metadata = {
     description: "Discover profitable, low-competition faceless YouTube niches. Get data-driven strategy guides, revenue estimates, and viral video ideas.",
     url: "https://nichevault.com",
     siteName: "Niche Vault",
-    images: [
-      {
-        url: "/og-image.jpg", // We don't have this yet but good to have the slot
-        width: 1200,
-        height: 630,
-        alt: "Niche Vault Dashboard",
-      },
-    ],
+
     locale: "en_US",
     type: "website",
   },
@@ -38,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Niche Vault | Top Faceless YouTube Niches",
     description: "Discover profitable, low-competition faceless YouTube niches.",
-    images: ["/og-image.jpg"],
+
   },
   alternates: {
     canonical: "https://nichevault.com",
